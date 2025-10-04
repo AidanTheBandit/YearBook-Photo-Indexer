@@ -7,8 +7,8 @@ A portable JavaScript program to index and search a large folder of raw images (
 1. **Install Node.js**: Download from [nodejs.org](https://nodejs.org/) (version 18+)
 2. **Install dependencies**: Run `npm install`
 3. **Put your images**: Organize them in a folder, e.g., `/Users/you/Pictures/MyPhotos`
-4. **Index the folder**: Run `node index.js /Users/you/Pictures/MyPhotos`
-5. **Search**: Run `node search.js "beach sunset"`
+4. **Index the folder**: Run `node index.js` (it will prompt for the folder path)
+5. **Search**: Run `node search.js` (it will prompt for search terms)
 
 That's it! The program will scan your folder, generate descriptions, and save them locally.
 
@@ -36,19 +36,15 @@ npm install
 
 #### Indexing Images
 ```
-node index.js <folder_path>
+node index.js [folder_path]
 ```
-Replace `<folder_path>` with the path to your image folder. The program will:
-- Scan recursively for supported formats
-- Generate AI descriptions
-- Store in local database (`images.db`)
-- Skip already processed images
+If you don't provide a folder path, it will prompt you interactively.
 
 #### Searching Images
 ```
-node search.js "<query>"
+node search.js [query]
 ```
-Finds images whose descriptions contain your search terms.
+If you don't provide a query, it will prompt you interactively.
 
 ## Supported Formats
 

@@ -4,6 +4,7 @@ import sharp from 'sharp';
 import { pipeline } from '@xenova/transformers';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { insertImage, isIndexed } from './db.cjs';
+import inquirer from 'inquirer';
 
 const useGemini = !!process.env.GOOGLE_API_KEY;
 
@@ -84,16 +85,28 @@ async function indexFolder(folderPath, model) {
 }
 
 async function main() {
+  let folder;
   const args = process.argv.slice(2);
-  if (args.length !== 1) {
-    console.log('Usage: node index.js <folder_path>');
-    process.exit(1);
-  }
-
-  const folder = args[0];
-  if (!fs.existsSync(folder) || !fs.statSync(folder).isDirectory()) {
-    console.log(`Folder ${folder} does not exist or is not a directory`);
-    process.exit(1);
+  if (args.length === 0) {
+    const answers = await inquirer.prompt([
+      {
+        type: 'input',
+        name: 'folder',
+        message: 'Enter the path to your image folder:',
+        validate: (input) => {
+          if (!fs.existsSync(input)) return 'Path does not exist';
+          if (!fs.statSync(input).isDirectory()) return 'Path is not a directory';
+          return true;
+        }
+      }
+    ]);
+    folder = answers.folder;
+  } else {
+    folder = args[0];
+    if (!fs.existsSync(folder) || !fs.statSync(folder).isDirectory()) {
+      console.log(`Folder ${folder} does not exist or is not a directory`);
+      process.exit(1);
+    }
   }
 
   const model = await loadModel();
