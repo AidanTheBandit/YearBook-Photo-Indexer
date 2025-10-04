@@ -30,10 +30,7 @@ Get a free key from [Google AI Studio](https://makersuite.google.com/app/apikey)
 npm install
 ```
 
-For raw image support (NEF, CR2, etc.):
-```
-brew install libraw
-```
+**Note**: No additional system packages needed. Raw image support depends on system libraries that may not be available on restricted laptops.
 
 ### Usage
 
@@ -59,11 +56,23 @@ Finds images whose descriptions contain your search terms.
 - PNG
 - TIFF
 - BMP
-- NEF (Nikon)
+- NEF (Nikon) - may require system libraries (not available on restricted laptops)
 - CR2 (Canon)
 - ARW (Sony)
 - DNG (Adobe)
 - RAW
+
+**For School Laptops**: Raw formats (NEF, CR2, etc.) require system libraries that aren't available. Convert them to JPEG first using the built-in Automator app:
+
+1. Open Automator (search in Spotlight)
+2. Create new "Quick Action" or "Workflow"
+3. Add "Get Selected Finder Items" or drag files in
+4. Add "Change Type of Images" action
+5. Set to JPEG, quality 100%
+6. Save the workflow
+7. Select your NEF files in Finder, right-click > Quick Look > Run workflow
+
+This converts files in place or to a new folder. Process in batches to avoid overwhelming the system.
 
 ## Performance
 
@@ -73,6 +82,7 @@ Finds images whose descriptions contain your search terms.
 
 ## Troubleshooting
 
-- If raw images fail: Install libraw with `brew install libraw`
-- For Gemini: Ensure API key is set and internet available
-- Large folders: Process in batches if needed
+- **Raw images fail**: Use Automator to batch convert NEF/CR2 to JPEG (see above)
+- **For Gemini**: Ensure API key is set and internet available
+- **Large folders**: Process in batches if needed
+- **Permission errors**: Make sure you have read access to the image folder
